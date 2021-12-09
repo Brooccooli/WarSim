@@ -9,4 +9,5 @@ public interface IWeapon
     public void Attack(int damage);
 
     public void Rotate(Quaternion goalRotation);
+    public void Rotate(Vector3 direction);
 }

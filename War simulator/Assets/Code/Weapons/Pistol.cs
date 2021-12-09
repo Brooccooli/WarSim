@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class Pistol : MonoBehaviour, IWeapon
 {
     [SerializeField] private GameObject bulletPrefab;
 
+    // Only for test, delete later
+    private Quaternion startQuaternion;
+    
     public bool Meele()
     {
         return false;
@@ -19,23 +23,18 @@ public class Pistol : MonoBehaviour, IWeapon
 
     public void Rotate(Quaternion goalRotation)
     {
-        transform.rotation = Quaternion.Lerp(transform.rotation, goalRotation, 0.1f);
+        transform.rotation = Quaternion.Lerp(transform.rotation, goalRotation, 0.05f);
     }
-
-    // Only for test, delete later
-    Quaternion right;
+    
+    public void Rotate(Vector3 direction)
+    {
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        Quaternion goalRotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        transform.rotation = Quaternion.Lerp(transform.rotation, goalRotation, 0.05f);
+    }
     
     void Start()
     {
-        right = transform.rotation;
-    }
-
-    void Update()
-    {
-        Rotate(right);
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Attack(1);
-        }
+        startQuaternion = transform.rotation;
     }
 }

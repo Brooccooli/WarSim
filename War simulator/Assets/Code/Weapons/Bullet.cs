@@ -6,6 +6,7 @@ public class Bullet : MonoBehaviour
 {
     public int Damage = 1;
     private int speed = 10;
+    private float aliveTimer = 5;
 
     void Start()
     {
@@ -20,6 +21,11 @@ public class Bullet : MonoBehaviour
 
     private void Update()
     {
+        aliveTimer -= Time.deltaTime;
+        if (aliveTimer > 0)
+        {
+            return;
+        }
         if (!GetComponentInChildren<SpriteRenderer>().isVisible)
         {
             Destroy(gameObject);

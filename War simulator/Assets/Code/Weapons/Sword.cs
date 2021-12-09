@@ -7,33 +7,29 @@ public class Sword : MonoBehaviour, IWeapon
     private Quaternion startRotation;
     public bool Meele()
     {
-        throw new System.NotImplementedException();
+        return true;
     }
 
     public void Attack(int damage)
     {
         // Todo: Add area check to see if close enough
-        transform.Rotate(new Vector3(40, 0, 60));
+        transform.Rotate(new Vector3(0, 0, 60));
     }
 
     public void Rotate(Quaternion goalRotation)
     {
-        transform.rotation = Quaternion.Lerp(transform.rotation, goalRotation, 0.1f);
+        transform.rotation = Quaternion.Lerp(transform.rotation, goalRotation, 0.01f);
+    }
+    
+    public void Rotate(Vector3 direction)
+    {
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        Quaternion goalRotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        transform.rotation = Quaternion.Lerp(transform.rotation, goalRotation, 0.05f);
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         startRotation = transform.rotation;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        Rotate(startRotation);
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Attack(1);
-        }
     }
 }
